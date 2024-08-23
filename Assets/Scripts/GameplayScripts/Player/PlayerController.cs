@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
     private void ClampPlayerMoveToScreen()
     {
         Vector3 pos = Camera.main.WorldToViewportPoint(transform.position);
-        pos.y = Mathf.Clamp(pos.y, 0.2f, 0.8f); //Valores arbitrarios
+        pos.y = Mathf.Clamp(pos.y, 0.1f, 0.9f); //Valores arbitrarios
         transform.position = Camera.main.ViewportToWorldPoint(pos);
     }
 }
