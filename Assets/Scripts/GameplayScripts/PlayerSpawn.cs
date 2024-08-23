@@ -18,18 +18,23 @@ public class PlayerSpawn : MonoBehaviour
     {
         player = PhotonNetwork.Instantiate(playerPrefab.name, new Vector2(Random.Range(-4, 4), Random.Range(-4, 4)), Quaternion.identity);
 
-        //pv.RPC("SetColor", RpcTarget.OthersBuffered);
+        pv.RPC("SetColor", RpcTarget.OthersBuffered);
     }
 
-    /*[PunRPC]
+    [PunRPC]
     private void SetColorToPlayers()
     {
-        foreach (KeyValuePair<int, Photon.Realtime.Player> playersData in PhotonNetwork.CurrentRoom.Players)
+        if (pv.IsMine)
         {
-            switch (playersData.Value.UserId)
+            switch (PhotonNetwork.CurrentRoom.PlayerCount)
             {
-
+                case 1:
+                    player.GetComponent<SpriteRenderer>().color = Color.red;
+                    break;
+                case 2:
+                    player.GetComponent<SpriteRenderer>().color = Color.blue;
+                    break;
             }
         }
-    }*/
+    }
 }
