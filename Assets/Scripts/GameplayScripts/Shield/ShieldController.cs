@@ -14,10 +14,10 @@ public class ShieldController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space)) //Placeholder para probar
-        {
-            _shieldModel.ShieldHit();
-        }
+        // if (Input.GetKeyDown(KeyCode.Space)) //Placeholder para probar
+        // {
+        //     _shieldModel.ShieldHit();
+        // }
     }
 
     private void OnCollisionEnter2D(Collision2D other)

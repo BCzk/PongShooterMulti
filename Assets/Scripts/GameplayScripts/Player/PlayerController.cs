@@ -19,6 +19,11 @@ public class PlayerController : MonoBehaviour
             _playerModel.Move(Input.GetAxis("Vertical"));
             ClampPlayerMoveToScreen();
         }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            _playerModel.Shoot();
+        }
     }
     
     private void ClampPlayerMoveToScreen()
