@@ -1,28 +1,34 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
     private PlayerModel _playerModel;
-
+    private PhotonView _pv;
+    
     private void Start()
     {
         _playerModel = GetComponent<PlayerModel>();
+        _pv = GetComponent<PhotonView>();
     }
 
     private void Update()
     {
-        if (Input.GetAxis("Vertical") != 0)
+        if (_pv.IsMine)
         {
-            _playerModel.Move(Input.GetAxis("Vertical"));
-            ClampPlayerMoveToScreen();
-        }
+            if (Input.GetAxis("Vertical") != 0)
+            {
+                _playerModel.Move(Input.GetAxis("Vertical"));
+                ClampPlayerMoveToScreen();
+            }
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            _playerModel.Shoot();
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                _playerModel.Shoot();
+            }
         }
     }
     
