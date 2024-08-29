@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 8258881378618177635}
   - component: {fileID: 548485162767007224}
   m_Layer: 0
-  m_Name: BlueBullet
+  m_Name: RedBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -78,7 +78,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 789772a5a0035344d891f31376ecc0d5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 26a8cb078fa39d245a73b0a80061340f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -121,7 +121,7 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.75, y: 0}
+  m_Offset: {x: 0.75, y: 0}
   serializedVersion: 2
   m_Radius: 0.33
 --- !u!114 &4464071585394240596
@@ -136,7 +136,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c3d0b21dd884c84b9d03dea024eaceb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: -15
+  speed: 15
 --- !u!114 &7038704920186023051
 MonoBehaviour:
   m_ObjectHideFlags: 0

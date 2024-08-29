@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
@@ -18,5 +19,6 @@ public class PlayerModel : MonoBehaviour
     public void Shoot() //Seguramente para sincronizarlo haya que transformarlo a un PunRPC
     {
         Instantiate(bullet, transform.position, quaternion.identity);
+        PhotonNetwork.Instantiate(bullet.name, transform.position, Quaternion.identity);
     }
 }
