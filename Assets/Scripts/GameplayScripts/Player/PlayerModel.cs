@@ -15,7 +15,7 @@ public class PlayerModel : MonoBehaviour
         transform.Translate(0, movement,0);
     }
 
-    public void Shoot()
+    public void Shoot() //Seguramente para sincronizarlo haya que transformarlo a un PunRPC
     {
         Instantiate(bullet, transform.position, quaternion.identity);
     }
