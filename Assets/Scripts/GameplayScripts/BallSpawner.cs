@@ -5,13 +5,14 @@ using UnityEngine;
 
 public class BallSpawner : MonoBehaviour
 {
+    [SerializeField] private Transform spawnPoint;
+    [SerializeField] private GameObject ballPrefab;
     [SerializeField] private float timeToStartSpawning;
     [SerializeField] private float timeBetweenSpawn;
 
     private float timer;
     private bool readyToSpawn;
     private bool matchStarted;
-    private GameObject ballPrefab;
 
     private void Start()
     {
@@ -23,10 +24,18 @@ public class BallSpawner : MonoBehaviour
         if (PhotonNetwork.CurrentRoom.PlayerCount >= 2)
         {
             matchStarted = true;
+        }
+        else if (PhotonNetwork.CurrentRoom.PlayerCount < 2 && matchStarted)
+        {
+            matchStarted = false;
+        }
+
+        if (matchStarted)
+        {
             if (PhotonNetwork.IsMasterClient)
             {
                 timer += Time.deltaTime;
-                if (!readyToSpawn && timeToStartSpawning < timer)
+                if (!readyToSpawn && timer > timeToStartSpawning)
                 {
                     readyToSpawn = true;
                     timer = 0;
@@ -34,14 +43,11 @@ public class BallSpawner : MonoBehaviour
 
                 if (readyToSpawn && timer > timeBetweenSpawn)
                 {
+                    Debug.Log(timer);
                     timer = 0;
-                    PhotonNetwork.Instantiate(ballPrefab.name, new Vector2(Random.Range(-4, 4), Random.Range(-4, 4)), Quaternion.identity);
+                    PhotonNetwork.Instantiate(ballPrefab.name, spawnPoint.position, Quaternion.identity);
                 }
             }
-        }
-        else if (PhotonNetwork.CurrentRoom.PlayerCount < 2 && matchStarted)
-        {
-        
         }
     }
 }

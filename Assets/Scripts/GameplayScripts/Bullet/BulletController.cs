@@ -8,7 +8,7 @@ public class BulletController : MonoBehaviour
 {
     private BulletModel _bulletModel;
     PhotonView pv;
-
+    
     void Start()
     {
         pv = GetComponent<PhotonView>();
@@ -20,15 +20,25 @@ public class BulletController : MonoBehaviour
         _bulletModel.Move();
     }
 
-    private void OnCollisionEnter2D(Collision2D other)
+    private void OnTriggerEnter(Collider other)
     {
-        // if (other.gameObject.tag == "") //Tag del escudo
-        // {
-        //     Destroy(gameObject); //Cambiar por lógica de pool
-        // }
+        if(other.CompareTag("Shield") || other.CompareTag("Player"))
+        {
+            Debug.Log("Colisione me destruyo");
+            DestroyBullet();
+        }
+        else
+        {
+            Debug.Log("No me sirve pero colisione");
+        }
     }
 
     private void OnBecameInvisible() // Por si el objeto se sale de la pantalla
+    {
+        DestroyBullet();
+    }
+
+    private void DestroyBullet()
     {
         if (PhotonNetwork.IsMasterClient)
         {

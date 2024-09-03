@@ -15,9 +15,9 @@ GameObject:
   - component: {fileID: -6540575955353170216}
   - component: {fileID: 9056703257008620975}
   - component: {fileID: 4205911922305258583}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: RedPlayer
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -222,9 +222,9 @@ GameObject:
   - component: {fileID: 6478914345791509370}
   - component: {fileID: 1962103429150403530}
   - component: {fileID: 3189171421825188852}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Shield
-  m_TagString: Untagged
+  m_TagString: Shield
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

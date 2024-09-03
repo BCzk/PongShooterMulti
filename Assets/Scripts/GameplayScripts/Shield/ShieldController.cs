@@ -22,9 +22,14 @@ public class ShieldController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        // if (other.gameObject.CompareTag("")) //Acá iría el tag de las balas
-        // {
-        //     _shieldModel.ShieldHit();
-        // }
+        if (other.gameObject.CompareTag("Bullet"))
+        {
+            Debug.Log("Colisione con la bala");
+            _shieldModel.ShieldHit();
+        }
+        else
+        {
+            Debug.Log("No me sirve pero colisione");
+        }
     }
 }

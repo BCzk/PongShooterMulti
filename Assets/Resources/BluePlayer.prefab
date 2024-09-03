@@ -15,9 +15,9 @@ GameObject:
   - component: {fileID: -6540575955353170216}
   - component: {fileID: 9056703257008620975}
   - component: {fileID: 4205911922305258583}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: BluePlayer
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -222,9 +222,9 @@ GameObject:
   - component: {fileID: 6478914345791509370}
   - component: {fileID: 3728952027722194728}
   - component: {fileID: 4043077547118730444}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Shield
-  m_TagString: Untagged
+  m_TagString: Shield
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
