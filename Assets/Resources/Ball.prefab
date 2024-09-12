@@ -122,9 +122,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.00000019868214, y: 0.024188757}
   serializedVersion: 2
-  m_Radius: 1.395
+  m_Radius: 1.1579448
 --- !u!50 &238479014091515316
 Rigidbody2D:
   serializedVersion: 4
@@ -192,7 +192,7 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  Synchronization: 3
+  Synchronization: 1
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:

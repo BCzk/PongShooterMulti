@@ -10,6 +10,4 @@ public class BulletModel : MonoBehaviour
     {
         transform.Translate(speed * Time.deltaTime,0,0);
     }
-    
-    //Necesitaría una lógica de guardarse en una pool capaz
 }
