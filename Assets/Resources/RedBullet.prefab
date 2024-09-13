@@ -11,11 +11,12 @@ GameObject:
   - component: {fileID: 4034078185459576968}
   - component: {fileID: 8115373767957053735}
   - component: {fileID: 750992573176992305}
+  - component: {fileID: 7072984403625567573}
   - component: {fileID: 4464071585394240596}
   - component: {fileID: 7038704920186023051}
   - component: {fileID: 8258881378618177635}
   - component: {fileID: 548485162767007224}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: RedBullet
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -118,12 +119,39 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.75, y: 0}
   serializedVersion: 2
-  m_Radius: 0.33
+  m_Radius: 0.25
+--- !u!50 &7072984403625567573
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1108151587456000452}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!114 &4464071585394240596
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -164,7 +192,7 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  Synchronization: 2
+  Synchronization: 1
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:

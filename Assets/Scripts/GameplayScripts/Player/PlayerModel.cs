@@ -16,9 +16,8 @@ public class PlayerModel : MonoBehaviour
         transform.Translate(0, movement,0);
     }
 
-    public void Shoot() //Seguramente para sincronizarlo haya que transformarlo a un PunRPC
+    public void Shoot()
     {
-        //Instantiate(bullet, transform.position, quaternion.identity);
         PhotonNetwork.Instantiate(bullet.name, transform.position, Quaternion.identity);
     }
 }

@@ -4,20 +4,18 @@ using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviourPun
 {
     private PlayerModel _playerModel;
-    private PhotonView _pv;
     
-    private void Start()
+    private void Awake()
     {
         _playerModel = GetComponent<PlayerModel>();
-        _pv = GetComponent<PhotonView>();
     }
 
     private void Update()
     {
-        if (_pv.IsMine)
+        if (photonView.IsMine)
         {
             if (Input.GetAxis("Vertical") != 0)
             {

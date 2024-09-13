@@ -9,6 +9,7 @@ public class BallController : MonoBehaviour
     private BallModel _model;
     private Vector3 lastVelocity;
 
+
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
