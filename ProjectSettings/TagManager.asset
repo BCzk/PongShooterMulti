@@ -7,6 +7,7 @@ TagManager:
   - Shield
   - Bullet
   - Bounds
+  - Ball
   layers:
   - Default
   - TransparentFX

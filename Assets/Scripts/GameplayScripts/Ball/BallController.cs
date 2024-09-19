@@ -38,5 +38,11 @@ public class BallController : MonoBehaviour
         newDirection.Normalize();
 
         _rb.velocity = newDirection * _model.Speed * Time.fixedDeltaTime;
+
+
+        if (collision.gameObject.CompareTag("Shield") && collision.gameObject.GetPhotonView().IsMine)
+        {
+            _model.photonView.RPC("SetBallOwner", RpcTarget.AllBufferedViaServer, PhotonNetwork.LocalPlayer.ActorNumber);
+        }
     }
 }
