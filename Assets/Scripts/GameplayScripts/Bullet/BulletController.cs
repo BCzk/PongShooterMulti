@@ -26,7 +26,7 @@ public class BulletController : MonoBehaviourPun
         {
             if (collision.gameObject.CompareTag("Shield") && !collision.gameObject.GetPhotonView().IsMine)
             {
-                collision.gameObject.GetComponent<ShieldModel>().photonView.RPC("ShieldHit", RpcTarget.All);
+                collision.gameObject.GetComponent<ShieldModel>().photonView.RPC("ShieldHit", RpcTarget.AllBufferedViaServer);
                 DestroyBullet();
 
             }

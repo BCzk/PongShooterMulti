@@ -8,6 +8,22 @@ public class ShieldModel : MonoBehaviourPun
 {
     [Range(0, 1)] [SerializeField] private float shieldLostPerHit;
     private Vector3 _auxiliarScaleVector;
+    private bool bIsShieldDestroyed = false;
+    private const float SHIELD_RESET_TIME = 5.0f;
+    private float shieldResetCounter;
+
+    private void FixedUpdate()
+    {
+        if (bIsShieldDestroyed)
+        {
+            shieldResetCounter += Time.fixedDeltaTime;
+
+            if (shieldResetCounter > SHIELD_RESET_TIME)
+            {
+                photonView.RPC("ResetShield", RpcTarget.AllBufferedViaServer);
+            }
+        }
+    }
 
     [PunRPC]
     public void ShieldHit()
@@ -16,12 +32,10 @@ public class ShieldModel : MonoBehaviourPun
         _auxiliarScaleVector.y -= shieldLostPerHit;
         transform.localScale = _auxiliarScaleVector;
 
-        /* TODO: Reset
-        if (transform.localScale.y <= 0)
+        if (_auxiliarScaleVector.y <= 0.2f)
         {
-            ResetShield();
+            bIsShieldDestroyed = true;
         }
-        */
     }
 
     [PunRPC]
@@ -29,5 +43,7 @@ public class ShieldModel : MonoBehaviourPun
     {
         _auxiliarScaleVector.y = 1;
         transform.localScale = _auxiliarScaleVector;
+        bIsShieldDestroyed = false;
+        shieldResetCounter = 0.0f;
     }
 }
