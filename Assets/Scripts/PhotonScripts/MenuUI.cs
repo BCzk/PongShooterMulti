@@ -9,8 +9,10 @@ public class MenuUI : MonoBehaviourPunCallbacks
 {
     [SerializeField] private Button createButton;
     [SerializeField] private Button joinButton;
+    [SerializeField] private Button errorButton;
     [SerializeField] private TMPro. TMP_InputField createInput;
     [SerializeField] private TMPro. TMP_InputField joinInput;
+    [SerializeField] private TMPro. TextMeshProUGUI errorText;
 
     private void Awake()
     {
@@ -28,7 +30,16 @@ public class MenuUI : MonoBehaviourPunCallbacks
     {
         RoomOptions roomConfiguration = new RoomOptions();
         roomConfiguration.MaxPlayers = 2;
-        PhotonNetwork.CreateRoom(createInput.text, roomConfiguration);
+
+        if (createInput.text == "")
+        {
+            errorButton.gameObject.SetActive(true);
+            errorText.text = "Cannot leave room name Empty";
+        }
+        else
+        {
+            PhotonNetwork.CreateRoom(createInput.text, roomConfiguration);
+        }
     }
 
     private void JoinRoom()
@@ -39,5 +50,11 @@ public class MenuUI : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         PhotonNetwork.LoadLevel("GameplayScene");
+    }
+    public override void OnCreateRoomFailed(short returnCode, string message)
+    {
+        base.OnCreateRoomFailed(returnCode, message);
+        errorButton.gameObject.SetActive(true);
+        errorText.text = message;
     }
 }
