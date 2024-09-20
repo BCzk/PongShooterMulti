@@ -12,11 +12,12 @@ public class BallModel : MonoBehaviourPun
     
     [SerializeField] private float speed;
     private int ballPlayerOwnerId = 0;
+    private const float BALL_MAX_SPEED = 850.0f;
 
     [PunRPC]
-    public void SetBallOwner(int PlayerID)
+    public void SetBallOwner(int playerID)
     {
-        if (PlayerID == 1)
+        if (playerID == 1)
         {
             gameObject.GetComponent<SpriteRenderer>().color = Color.red;
         }
@@ -25,6 +26,12 @@ public class BallModel : MonoBehaviourPun
             gameObject.GetComponent<SpriteRenderer>().color = Color.cyan;
         }
 
-        ballPlayerOwnerId = PlayerID;
+        ballPlayerOwnerId = playerID;
+    }
+
+    [PunRPC]
+    public void IncreaseBallSpeed(float addSpeed)
+    {
+        speed = Mathf.Clamp(speed + addSpeed, 400.0f, BALL_MAX_SPEED);
     }
 }

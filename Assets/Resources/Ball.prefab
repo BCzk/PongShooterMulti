@@ -164,7 +164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c7b60a70bd76004ead3450e4dd63740, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 600
+  speed: 400
 --- !u!114 &5641578551274926090
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -215,4 +215,4 @@ MonoBehaviour:
   m_SynchronizeVelocity: 1
   m_SynchronizeAngularVelocity: 1
   m_TeleportEnabled: 1
-  m_TeleportIfDistanceGreaterThan: 10
+  m_TeleportIfDistanceGreaterThan: 55

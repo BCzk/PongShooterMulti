@@ -9,6 +9,10 @@ public class BallController : MonoBehaviour
     private BallModel _model;
     private Vector3 lastVelocity;
 
+    private float increaseSpeedCounter = 0.0f;
+    private const float TIME_TO_CALL_SPEED_INCREASE = 3.0f;
+    private const float BALL_SPEED_INCREASE_AMOUNT = 25.0f;
+
 
     private void Awake()
     {
@@ -25,6 +29,13 @@ public class BallController : MonoBehaviour
     private void FixedUpdate()
     {
         lastVelocity = _rb.velocity;
+
+        increaseSpeedCounter += Time.fixedDeltaTime;
+        if (increaseSpeedCounter > TIME_TO_CALL_SPEED_INCREASE)
+        {
+            _model.photonView.RPC("IncreaseBallSpeed", RpcTarget.AllBufferedViaServer, BALL_SPEED_INCREASE_AMOUNT);
+            increaseSpeedCounter = 0.0f;
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
