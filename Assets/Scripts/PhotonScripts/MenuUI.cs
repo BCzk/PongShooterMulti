@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.UI;
+using UnityEditor.VersionControl;
 
 public class MenuUI : MonoBehaviourPunCallbacks
 {
@@ -44,7 +45,15 @@ public class MenuUI : MonoBehaviourPunCallbacks
 
     private void JoinRoom()
     {
-        PhotonNetwork.JoinRoom(joinInput.text);
+        if (joinInput.text == "")
+        {
+            errorButton.gameObject.SetActive(true);
+            errorText.text = "Must Enter a Room to Join";
+        }
+        else
+        {
+            PhotonNetwork.JoinRoom(joinInput.text);
+        }
     }
 
     public override void OnJoinedRoom()
@@ -54,6 +63,12 @@ public class MenuUI : MonoBehaviourPunCallbacks
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
         base.OnCreateRoomFailed(returnCode, message);
+        errorButton.gameObject.SetActive(true);
+        errorText.text = message;
+    }
+    public override void OnJoinRoomFailed(short returnCode, string message)
+    {
+        base.OnJoinRoomFailed(returnCode, message);
         errorButton.gameObject.SetActive(true);
         errorText.text = message;
     }
