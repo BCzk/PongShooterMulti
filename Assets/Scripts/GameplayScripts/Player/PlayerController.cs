@@ -7,6 +7,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviourPun
 {
     private PlayerModel _playerModel;
+
+    public Action<string> PlayerDied; //Le pasamos el string de la layer para que sepa cuál murió
     
     private void Awake()
     {
@@ -35,5 +37,16 @@ public class PlayerController : MonoBehaviourPun
         Vector3 pos = Camera.main.WorldToViewportPoint(transform.position);
         pos.y = Mathf.Clamp(pos.y, 0.1f, 0.9f); //Valores arbitrarios
         transform.position = Camera.main.ViewportToWorldPoint(pos);
+    }
+
+    private void OnRoundReset()
+    {
+        _playerModel.ResetPosition();
+    }
+
+    private void PlayerDeath()
+    {
+        _playerModel.Die();
+        PlayerDied.Invoke(gameObject.layer.ToString()); //Le pasamos el string de la layer para que sepa cuál murió
     }
 }

@@ -13,10 +13,12 @@ public class PlayerSpawn : MonoBehaviour
         switch (PhotonNetwork.CurrentRoom.PlayerCount)
         {
             case 1:
-                PhotonNetwork.Instantiate(playerPrefabs[0].name, startingPositions[0].position, Quaternion.identity);
+                var player1 = PhotonNetwork.Instantiate(playerPrefabs[0].name, startingPositions[0].position, Quaternion.identity);
+                player1.GetComponent<PlayerModel>().StartingPosition = startingPositions[0].position;
                 break;
             case 2:
-                PhotonNetwork.Instantiate(playerPrefabs[1].name, startingPositions[1].position, Quaternion.identity);
+                var player2 = PhotonNetwork.Instantiate(playerPrefabs[1].name, startingPositions[1].position, Quaternion.identity);
+                player2.GetComponent<PlayerModel>().StartingPosition = startingPositions[1].position;
                 break;
         }
     }

@@ -8,7 +8,6 @@ public class BulletController : MonoBehaviourPun
 {
     private BulletModel _bulletModel;
     private bool bIsPendingKill = false;
-
     
     private void Awake()
     {
