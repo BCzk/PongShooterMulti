@@ -23,6 +23,8 @@ public class BallController : MonoBehaviourPun
 
     private void Start()
     {
+        GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().ResetThings += DestroyBall;
+
         var rndDir = Random.insideUnitCircle.normalized;
         _rb.velocity = rndDir * _model.Speed * Time.fixedDeltaTime;
     }

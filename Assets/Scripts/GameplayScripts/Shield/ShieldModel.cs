@@ -12,6 +12,11 @@ public class ShieldModel : MonoBehaviourPun
     private const float SHIELD_RESET_TIME = 5.0f;
     private float shieldResetCounter;
 
+    private void Start()
+    {
+        GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().ResetThings += ResetShield;
+    }
+
     private void FixedUpdate()
     {
         if (bIsShieldDestroyed)

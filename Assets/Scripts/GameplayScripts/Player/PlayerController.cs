@@ -9,10 +9,16 @@ public class PlayerController : MonoBehaviourPun
     private PlayerModel _playerModel;
 
     public Action<string> PlayerDied; //Le pasamos el string de la layer para que sepa cuál murió
+
     
     private void Awake()
     {
         _playerModel = GetComponent<PlayerModel>();
+    }
+
+    private void Start()
+    {
+        GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().ResetThings += OnRoundReset;
     }
 
     private void Update()

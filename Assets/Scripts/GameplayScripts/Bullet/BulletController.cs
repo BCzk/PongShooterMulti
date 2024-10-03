@@ -13,6 +13,10 @@ public class BulletController : MonoBehaviourPun
     {
         _bulletModel = GetComponent<BulletModel>();
     }
+    private void Start()
+    {
+        GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().ResetThings += DestroyBullet;
+    }
 
     private void Update()
     {
