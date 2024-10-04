@@ -5,18 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8023ba79-c8c9-478b-a35c-6efa1a34b46a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.PongShooterMulti/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.PongShooterMulti/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Ball.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Ball.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/BlueBullet.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/BlueBullet.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/BluePlayer.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/BluePlayer.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/RedPlayer.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/RedPlayer.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/GameplayScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/GameplayScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameplayScripts/Ball/BallController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameplayScripts/Ball/BallController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameplayScripts/Bullet/BulletController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameplayScripts/Bullet/BulletController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameplayScripts/Player/PlayerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameplayScripts/Player/PlayerController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameplayScripts/Player/PlayerModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameplayScripts/Player/PlayerModel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameplayScripts/PlayerSpawn.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameplayScripts/PlayerSpawn.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PhotonScripts/MenuUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PhotonScripts/MenuUI.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameplayScripts/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameplayScripts/GameManager.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -122,7 +112,7 @@
       <workItem from="1724932669437" duration="4146000" />
       <workItem from="1724968057336" duration="4925000" />
       <workItem from="1725367839711" duration="1984000" />
-      <workItem from="1727994145327" duration="2300000" />
+      <workItem from="1727994145327" duration="7336000" />
     </task>
     <servers />
   </component>

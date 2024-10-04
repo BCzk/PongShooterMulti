@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     private int _redPoints;
     private int _bluePoints;
 
-    private float _timer;
+    [SerializeField] private Animator timerAnimator;
     
     public Action ResetThings;
     public Action RoundStarted;
@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
         {
             players[i].GetComponent<PlayerController>().PlayerDied += OnPlayerDeath;
         }
+        timerAnimator.SetTrigger("StartTimer");
     }
 
     private void Update()
@@ -43,16 +44,19 @@ public class GameManager : MonoBehaviour
         if (_matchStarted) //Consultar, por ahora dejo las cosas acá adentro pero ya sé que no va acá
         {
             //Resetea todos los elementos
+            //Reinicio pool de balas y pelotas + reinicio posición y escudos de players (Cada quien reacciona al round started por su cuenta)
             ResetThings.Invoke();
             
             //Tiene que avisar que empezó una ronda
             RoundStarted.Invoke();
-            //Reinicio pool de balas y pelotas + reinicio posición y escudos de players (Cada quien reacciona al round started por su cuenta)
+            
+            //Tiene que hacer el contador de cada ronda
+            //Tiene que triggerear una animación de una UI
+            timerAnimator.SetTrigger("StartTimer");
+            
             
             //Tiene que avisar que terminó una ronda
             RoundFinished.Invoke();
-            
-            //Tiene que hacer el contador de cada ronda
             
             
             //Tiene que actualizar la UI
