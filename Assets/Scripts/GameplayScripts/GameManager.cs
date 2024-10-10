@@ -11,11 +11,14 @@ public class GameManager : MonoBehaviour
     private int _redPoints;
     private int _bluePoints;
 
+    //Actualizaciones de UI
     [SerializeField] private Animator timerAnimator;
+    [SerializeField] private Animator[] pointAnimators;
     
     public Action ResetThings;
     public Action RoundStarted;
     public Action RoundFinished;
+    public Action<string> MatchFinished;
 
     private void Start()
     {
@@ -60,7 +63,7 @@ public class GameManager : MonoBehaviour
             
             
             //Tiene que actualizar la UI
-            
+            //Lo hace cuando recibe la muerte de un player
         }
         
         //Match finished
@@ -75,23 +78,38 @@ public class GameManager : MonoBehaviour
         {
             _bluePoints++;
             //Actualiza UI
+            UpdatePointsUI();
             if (_bluePoints >= 3)
             {
-                //Termina la partida
+                MatchFinished("Blue");
             }
         }
         else if (deadPlayer == "Blue")
         {
             _redPoints++;
             //Actualiza UI
+            UpdatePointsUI();
             if (_redPoints >= 3)
             {
-                //Termina la partida
+                MatchFinished("Red");
             }
         }
         else
         {
-            Debug.Log("Qué poronga hiciste?");
+            Debug.Log("Error al sumar los puntos");
+        }
+    }
+
+    private void UpdatePointsUI()
+    {
+        for (int i = 0; i < _redPoints; i++)
+        {
+            pointAnimators[i].SetBool("Red", true);
+        }
+
+        for (int i = pointAnimators.Length - 1; i > (pointAnimators.Length - 1) - _bluePoints; i--)
+        {
+            pointAnimators[i].SetBool("Blue", true);
         }
     }
 }
