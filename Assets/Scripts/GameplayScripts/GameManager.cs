@@ -3,10 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviourPunCallbacks
 {
     private bool _matchStarted;
+
+    private int MAX_ROOM_PLAYERS = 2;
 
     private int _redPoints;
     private int _bluePoints;
@@ -28,7 +31,6 @@ public class GameManager : MonoBehaviour
         {
             players[i].GetComponent<PlayerController>().PlayerDied += OnPlayerDeath;
         }
-        timerAnimator.SetTrigger("StartTimer");
     }
 
     private void Update()
@@ -70,6 +72,24 @@ public class GameManager : MonoBehaviour
         //Match finished
         //Avisa quién ganó y abre canvas
     }
+
+    private void StartMatch()
+    {
+        if (!_matchStarted)
+        {
+            _matchStarted = true;
+            timerAnimator.SetTrigger("StartTimer");
+        }
+    }
+
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        if (PhotonNetwork.CurrentRoom.PlayerCount == MAX_ROOM_PLAYERS)
+        {
+            StartMatch();
+        }
+    }
+
 
     private void OnPlayerDeath(string deadPlayer)
     {
