@@ -44,27 +44,28 @@ public class GameManager : MonoBehaviour
             //Acá iría la excepción y el fin de partida
         }
 
-        if (_matchStarted) //Consultar, por ahora dejo las cosas acá adentro pero ya sé que no va acá
-        {
-            //Resetea todos los elementos
-            //Reinicio pool de balas y pelotas + reinicio posición y escudos de players (Cada quien reacciona al round started por su cuenta)
-            ResetThings.Invoke();
-            
-            //Tiene que avisar que empezó una ronda
-            RoundStarted.Invoke();
-            
-            //Tiene que hacer el contador de cada ronda
-            //Tiene que triggerear una animación de una UI
-            timerAnimator.SetTrigger("StartTimer");
-            
-            
-            //Tiene que avisar que terminó una ronda
-            RoundFinished.Invoke();
-            
-            
-            //Tiene que actualizar la UI
-            //Lo hace cuando recibe la muerte de un player
-        }
+        //Solo Debug
+        // if (_matchStarted) //Consultar, por ahora dejo las cosas acá adentro pero ya sé que no va acá
+        // {
+        //     //Resetea todos los elementos
+        //     //Reinicio pool de balas y pelotas + reinicio posición y escudos de players (Cada quien reacciona al round started por su cuenta)
+        //     // ResetThings.Invoke();
+        //     //
+        //     // //Tiene que avisar que empezó una ronda
+        //     // RoundStarted.Invoke();
+        //     //
+        //     // //Tiene que hacer el contador de cada ronda
+        //     // //Tiene que triggerear una animación de una UI
+        //     // timerAnimator.SetTrigger("StartTimer");
+        //     //
+        //     //
+        //     // //Tiene que avisar que terminó una ronda
+        //     // RoundFinished.Invoke();
+        //     
+        //     
+        //     //Tiene que actualizar la UI
+        //     //Lo hace cuando recibe la muerte de un player
+        // }
         
         //Match finished
         //Avisa quién ganó y abre canvas
