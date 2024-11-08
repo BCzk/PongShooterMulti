@@ -18,6 +18,7 @@ public class PlayerModel : MonoBehaviourPun
     [SerializeField] private GameObject bullet;
     [SerializeField] private Vector3 _startingPosition;
 
+    public string PlayerTeamFaction => playerFaction;
     private string playerFaction;
 
 

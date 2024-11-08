@@ -41,9 +41,6 @@ public class PlayerController : MonoBehaviourPun
     [PunRPC]
     public void SetInputEnabledStatus(bool bIsEnabled)
     {
-        if (photonView.IsMine)
-        {
-            bIsInputEnabled = bIsEnabled;
-        }
+        bIsInputEnabled = bIsEnabled;
     }
 }

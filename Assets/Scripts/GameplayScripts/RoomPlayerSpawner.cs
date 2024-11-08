@@ -16,13 +16,13 @@ public class RoomPlayerSpawner : MonoBehaviour
                 var player1 = PhotonNetwork.Instantiate(playerPrefabs[0].name, startingPositions[0].position, Quaternion.identity);
                 PlayerModel model = player1.GetComponent<PlayerModel>();
                 model.StartingPosition = startingPositions[0].position;
-                model.photonView.RPC("SetPlayerFaction", RpcTarget.AllBufferedViaServer, "Red");
+                model.photonView.RPC("SetPlayerFaction", RpcTarget.AllBufferedViaServer, TeamFactionConsts.RED_TEAM);
                 break;
             case 2:
                 var player2 = PhotonNetwork.Instantiate(playerPrefabs[1].name, startingPositions[1].position, Quaternion.identity);
                 PlayerModel model2 = player2.GetComponent<PlayerModel>();
                 model2.StartingPosition = startingPositions[1].position;
-                model2.photonView.RPC("SetPlayerFaction", RpcTarget.AllBufferedViaServer, "Blue");
+                model2.photonView.RPC("SetPlayerFaction", RpcTarget.AllBufferedViaServer, TeamFactionConsts.BLUE_TEAM);
                 break;
         }
     }

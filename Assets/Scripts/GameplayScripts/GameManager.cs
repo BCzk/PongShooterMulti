@@ -5,6 +5,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using ExitGames.Client.Photon;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
@@ -28,6 +29,11 @@ public class GameManager : MonoBehaviourPunCallbacks
             StartCoroutine(StartMatch());
         }
     }
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        CloseRoom(true);
+    }
+
     public void OnEvent(EventData photonEvent)
     {
         if (photonEvent.Code == EventCodeConsts.ON_PLAYER_LOSE_ROUND_EVENT)
@@ -63,13 +69,15 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            GlobalRoomReset();
-            // TODO: Sync bien en startmatch
             timerAnimator.SetTrigger("StartTimer");
+            GlobalRoomReset();
 
             ChangeGlobalRoomInputEnabledStatus(false);
             yield return new WaitForSeconds(3);
             ChangeGlobalRoomInputEnabledStatus(true);
+
+            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+            PhotonNetwork.RaiseEvent(EventCodeConsts.ON_ROUND_STARTED_EVENT, null, raiseEventOptions, SendOptions.SendReliable);
         }
     }
 
@@ -77,26 +85,26 @@ public class GameManager : MonoBehaviourPunCallbacks
     { 
         if (_matchStarted)
         {
-            if (factionLoser == "Red")
+            if (factionLoser == TeamFactionConsts.RED_TEAM)
             {
                 _bluePoints++;
 
                 if (_bluePoints >= 3)
                 {
-                    EndMatch("Blue");
+                    EndMatch(false, TeamFactionConsts.BLUE_TEAM);
                 }
                 else
                 {
                     StartCoroutine(StartRound());
                 }
             }
-            else if (factionLoser == "Blue")
+            else if (factionLoser == TeamFactionConsts.BLUE_TEAM)
             {
                 _redPoints++;
 
                 if (_redPoints >= 3)
                 {
-                    EndMatch("Red");
+                    EndMatch(false, TeamFactionConsts.RED_TEAM);
                 }
                 else
                 {
@@ -105,15 +113,53 @@ public class GameManager : MonoBehaviourPunCallbacks
             }
 
             UpdatePointsUI();
+
+            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+            PhotonNetwork.RaiseEvent(EventCodeConsts.ON_ROUND_FINISHED_EVENT, null, raiseEventOptions, SendOptions.SendReliable);
         }
     }
 
-    private void EndMatch(string winnerFaction)
+    private void EndMatch(bool bIsWinByAbandon, string winnerFaction)
     {
         if (PhotonNetwork.IsMasterClient && _matchStarted)
         {
+            object[] eventData = new object[] { winnerFaction };
+            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+            PhotonNetwork.RaiseEvent(EventCodeConsts.ON_MATCH_FINISHED_EVENT, eventData, raiseEventOptions, SendOptions.SendReliable);
+
+            GlobalRoomReset();
+            ChangeGlobalRoomInputEnabledStatus(false);
+
             PhotonNetwork.NetworkingClient.EventReceived -= OnEvent;
             _matchStarted = false;
+            _redPoints = 0;
+            _bluePoints = 0;
+        }
+
+        if (!bIsWinByAbandon)
+        {
+            StartCoroutine(HandlePostEndMatch());
+        }
+    }
+    private IEnumerator HandlePostEndMatch()
+    {
+        timerAnimator.SetTrigger("StartTimer");
+        yield return new WaitForSeconds(2.5f);
+        CloseRoom(false);
+    }
+
+    private void CloseRoom(bool bClosedByAbandon)
+    {
+        if (bClosedByAbandon)
+        {
+            PhotonNetwork.CurrentRoom.IsOpen = false;
+            EndMatch(bClosedByAbandon, GetRemainingPlayerTeamFaction());
+        }
+        else
+        {
+            PhotonNetwork.CurrentRoom.IsOpen = false;
+            PhotonNetwork.LeaveRoom(false);
+            SceneManager.LoadScene("MenuScene");
         }
     }
 
@@ -153,7 +199,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient)
         {
             KillPreviousRoundObjects("Ball");
-            //KillPreviousRoundObjects("Bullet"); // falta resolver ownership 
         }
     }
 
@@ -172,5 +217,11 @@ public class GameManager : MonoBehaviourPunCallbacks
             PhotonView pv = objectPvs[i];
             PhotonNetwork.Destroy(pv);
         }
+    }
+
+    private string GetRemainingPlayerTeamFaction()
+    {
+        GameObject remainingPlayer = GameObject.FindGameObjectWithTag("Player");
+        return remainingPlayer.GetComponent<PlayerModel>().PlayerTeamFaction;
     }
 }

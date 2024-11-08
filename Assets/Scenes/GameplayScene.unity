@@ -867,7 +867,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 615457093}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1655252118}
+        m_TargetAssemblyTypeName: GameEndedUI, Assembly-CSharp
+        m_MethodName: LeaveAndGoBackToLobby
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &615457093
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1674,7 +1686,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Menu
+  m_text: Back To Menu
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: de30ea530f5c9344b82bbdb8c6c16c7a, type: 2}
   m_sharedMaterial: {fileID: -7379428663827577481, guid: de30ea530f5c9344b82bbdb8c6c16c7a, type: 2}
@@ -1701,8 +1713,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 90
-  m_fontSizeBase: 90
+  m_fontSize: 58
+  m_fontSizeBase: 58
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

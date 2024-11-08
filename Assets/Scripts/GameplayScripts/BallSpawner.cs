@@ -1,3 +1,4 @@
+using ExitGames.Client.Photon;
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,27 +11,37 @@ public class BallSpawner : MonoBehaviour
     [SerializeField] private float timeToStartSpawning;
     [SerializeField] private float timeBetweenSpawn;
 
-    private float timer;
+    private float timer = 0.0f;
     private bool readyToSpawn;
-    private bool matchStarted;
+    private bool roundStarted;
 
-    private void Start()
+    private void OnEnable()
     {
-        timer = 0;
+        PhotonNetwork.NetworkingClient.EventReceived += OnEvent;
     }
+    private void OnDisable()
+    {
+        PhotonNetwork.NetworkingClient.EventReceived -= OnEvent;
+    }
+    public void OnEvent(EventData photonEvent)
+    {
+        if (photonEvent.Code == EventCodeConsts.ON_ROUND_STARTED_EVENT)
+        {
+            timer = 0.0f;
+            readyToSpawn = false;
+            roundStarted = true;
+        }
+        else if (photonEvent.Code == EventCodeConsts.ON_ROUND_FINISHED_EVENT)
+        {
+            timer = 0.0f;
+            roundStarted = false;
+        }
+    }
+
 
     private void Update()
     {
-        if (PhotonNetwork.CurrentRoom.PlayerCount >= 2)
-        {
-            matchStarted = true;
-        }
-        else if (PhotonNetwork.CurrentRoom.PlayerCount < 2 && matchStarted)
-        {
-            matchStarted = false;
-        }
-
-        if (matchStarted)
+        if (roundStarted)
         {
             if (PhotonNetwork.IsMasterClient)
             {
@@ -38,12 +49,12 @@ public class BallSpawner : MonoBehaviour
                 if (!readyToSpawn && timer > timeToStartSpawning)
                 {
                     readyToSpawn = true;
-                    timer = 0;
+                    timer = 0.0f;
                 }
 
                 if (readyToSpawn && timer > timeBetweenSpawn)
                 {
-                    timer = 0;
+                    timer = 0.0f;
                     PhotonNetwork.Instantiate(ballPrefab.name, spawnPoint.position, Quaternion.identity);
                 }
             }
