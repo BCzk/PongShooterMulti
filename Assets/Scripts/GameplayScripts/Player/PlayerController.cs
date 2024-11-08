@@ -7,23 +7,16 @@ using UnityEngine;
 public class PlayerController : MonoBehaviourPun
 {
     private PlayerModel _playerModel;
+    private bool bIsInputEnabled = true;
 
-    public Action<string> PlayerDied; //Le pasamos el string de la layer para que sepa cuál murió
-
-    
     private void Awake()
     {
         _playerModel = GetComponent<PlayerModel>();
     }
 
-    private void Start()
-    {
-        GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().ResetThings += OnRoundReset;
-    }
-
     private void Update()
     {
-        if (photonView.IsMine)
+        if (photonView.IsMine && bIsInputEnabled)
         {
             if (Input.GetAxis("Vertical") != 0)
             {
@@ -45,14 +38,12 @@ public class PlayerController : MonoBehaviourPun
         transform.position = Camera.main.ViewportToWorldPoint(pos);
     }
 
-    private void OnRoundReset()
+    [PunRPC]
+    public void SetInputEnabledStatus(bool bIsEnabled)
     {
-        _playerModel.ResetPosition();
-    }
-
-    private void PlayerDeath()
-    {
-        _playerModel.Die();
-        PlayerDied.Invoke(gameObject.layer.ToString()); //Le pasamos el string de la layer para que sepa cuál murió
+        if (photonView.IsMine)
+        {
+            bIsInputEnabled = bIsEnabled;
+        }
     }
 }

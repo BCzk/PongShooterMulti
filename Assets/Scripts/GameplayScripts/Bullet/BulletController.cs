@@ -13,10 +13,6 @@ public class BulletController : MonoBehaviourPun
     {
         _bulletModel = GetComponent<BulletModel>();
     }
-    private void Start()
-    {
-        GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().ResetThings += DestroyBullet;
-    }
 
     private void Update()
     {
@@ -29,13 +25,13 @@ public class BulletController : MonoBehaviourPun
         {
             if (collision.gameObject.CompareTag("Shield") && !collision.gameObject.GetPhotonView().IsMine)
             {
-                collision.gameObject.GetComponent<ShieldModel>().photonView.RPC("ShieldHit", RpcTarget.AllBufferedViaServer);
+                collision.gameObject.GetComponent<ShieldModel>().photonView.RPC("OnShieldHit", RpcTarget.All);
                 DestroyBullet();
 
             }
             else if (collision.gameObject.CompareTag("Player") && !collision.gameObject.GetPhotonView().IsMine)
             {
-                //TODO: kill player
+                collision.gameObject.GetComponent<PlayerModel>().LoseRound();
                 DestroyBullet();
             }
         }

@@ -12,10 +12,6 @@ public class ShieldModel : MonoBehaviourPun
     private const float SHIELD_RESET_TIME = 5.0f;
     private float shieldResetCounter;
 
-    private void Start()
-    {
-        GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().ResetThings += ResetShield;
-    }
 
     private void FixedUpdate()
     {
@@ -25,13 +21,13 @@ public class ShieldModel : MonoBehaviourPun
 
             if (shieldResetCounter > SHIELD_RESET_TIME)
             {
-                photonView.RPC("ResetShield", RpcTarget.AllBufferedViaServer);
+                photonView.RPC("ResetShield", RpcTarget.All);
             }
         }
     }
 
     [PunRPC]
-    public void ShieldHit()
+    public void OnShieldHit()
     {
         _auxiliarScaleVector = transform.localScale;
         _auxiliarScaleVector.y -= shieldLostPerHit;
@@ -46,6 +42,7 @@ public class ShieldModel : MonoBehaviourPun
     [PunRPC]
     public void ResetShield()
     {
+        _auxiliarScaleVector = transform.localScale;
         _auxiliarScaleVector.y = 1;
         transform.localScale = _auxiliarScaleVector;
         bIsShieldDestroyed = false;

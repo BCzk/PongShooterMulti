@@ -46,6 +46,15 @@ MonoBehaviour:
   - ShieldHit
   - SetBallOwner
   - IncreaseBallSpeed
+  - Die
+  - OnShieldHit
+  - HandleRoundFinished
+  - UpdatePointsUI
+  - ChangeGlobalRoomInputEnabledStatus
+  - GlobalRoomReset
+  - ResetPosition
+  - SetInputEnabledStatus
+  - SetPlayerFaction
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

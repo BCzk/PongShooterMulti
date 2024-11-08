@@ -43,7 +43,6 @@ public class BallSpawner : MonoBehaviour
 
                 if (readyToSpawn && timer > timeBetweenSpawn)
                 {
-                    Debug.Log(timer);
                     timer = 0;
                     PhotonNetwork.Instantiate(ballPrefab.name, spawnPoint.position, Quaternion.identity);
                 }

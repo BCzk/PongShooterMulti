@@ -1,10 +1,12 @@
+using ExitGames.Client.Photon;
 using Photon.Pun;
+using Photon.Realtime;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Mathematics;
 using UnityEngine;
 
-public class PlayerModel : MonoBehaviour
+public class PlayerModel : MonoBehaviourPun
 {
     public Vector3 StartingPosition
     {
@@ -13,11 +15,12 @@ public class PlayerModel : MonoBehaviour
     }
 
     [SerializeField] private float speed;
-
     [SerializeField] private GameObject bullet;
-
     [SerializeField] private Vector3 _startingPosition;
-    
+
+    private string playerFaction;
+
+
     public void Move(float dirY)
     {
         float movement = dirY * speed * Time.deltaTime;
@@ -29,14 +32,25 @@ public class PlayerModel : MonoBehaviour
         PhotonNetwork.Instantiate(bullet.name, transform.position, Quaternion.identity);
     }
 
-    public void Die()
+    public void LoseRound()
     {
-        //Lo que sea que hagamos
-        Debug.Log(gameObject.name + ": Me morí");
+        object[] eventData = new object[] { playerFaction };
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        PhotonNetwork.RaiseEvent(EventCodeConsts.ON_PLAYER_LOSE_ROUND_EVENT, eventData, raiseEventOptions, SendOptions.SendReliable);
     }
-    
+
+    [PunRPC]
     public void ResetPosition()
     {
-        transform.position = _startingPosition;
+        if (photonView.IsMine)
+        {
+            transform.position = _startingPosition;
+        }
+    }
+
+    [PunRPC]
+    public void SetPlayerFaction(string playerFaction)
+    {
+        this.playerFaction = playerFaction;
     }
 }

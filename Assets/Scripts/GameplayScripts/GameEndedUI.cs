@@ -3,7 +3,6 @@ using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.Mathematics;
 using UnityEngine;
 
 public class GameEndedUI : MonoBehaviour
@@ -14,7 +13,7 @@ public class GameEndedUI : MonoBehaviour
 
     private void Start()
     {
-        GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().MatchFinished += UpdateUI;
+        //GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().MatchFinished += UpdateUI;
         gameEndedPanel.SetActive(false);
         blueWins.SetActive(false);
         redWins.SetActive(false);
