@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerModel : MonoBehaviourPun
 {
@@ -21,6 +22,22 @@ public class PlayerModel : MonoBehaviourPun
     public string PlayerTeamFaction => playerFaction;
     private string playerFaction;
 
+    private void OnEnable()
+    {
+        PhotonNetwork.NetworkingClient.EventReceived += OnEvent;
+    }
+    private void OnDisable()
+    {
+        PhotonNetwork.NetworkingClient.EventReceived -= OnEvent;
+    }
+
+    public void OnEvent(EventData photonEvent)
+    {
+        if (photonEvent.Code == EventCodeConsts.ON_MATCH_FINISHED_TIMEOUT_KICK_EVENT)
+        {
+            ReturnPlayerToLobby();
+        }
+    }
 
     public void Move(float dirY)
     {
@@ -53,5 +70,23 @@ public class PlayerModel : MonoBehaviourPun
     public void SetPlayerFaction(string playerFaction)
     {
         this.playerFaction = playerFaction;
+    }
+
+    private void ReturnPlayerToLobby()
+    {
+        if (photonView.IsMine)
+        {
+            PhotonNetwork.LeaveRoom(false);
+            StartCoroutine(WaitUntilDisconnectedFromRoom());
+        }
+    }
+
+    private IEnumerator WaitUntilDisconnectedFromRoom()
+    {
+        while (PhotonNetwork.InRoom)
+        {
+            yield return null;
+        }
+        SceneManager.LoadScene("MenuScene");
     }
 }

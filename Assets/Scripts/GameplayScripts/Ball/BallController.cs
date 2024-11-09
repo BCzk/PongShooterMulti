@@ -13,8 +13,6 @@ public class BallController : MonoBehaviourPun
     private const float TIME_TO_CALL_SPEED_INCREASE = 3.0f;
     private const float BALL_SPEED_INCREASE_AMOUNT = 25.0f;
 
-    private bool bIsPendingKill = false;
-
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -54,16 +52,8 @@ public class BallController : MonoBehaviourPun
 
         if (collision.gameObject.CompareTag("Shield") && collision.gameObject.GetPhotonView().IsMine)
         {
-            _model.photonView.RPC("SetBallOwner", RpcTarget.AllBufferedViaServer, PhotonNetwork.LocalPlayer.ActorNumber);
-        }
-    }
-
-    private void DestroyBall()
-    {
-        if (PhotonNetwork.IsConnected && !bIsPendingKill)
-        {
-            bIsPendingKill = true;
-            PhotonNetwork.Destroy(photonView);
+            _model.photonView.RPC("SetBallFactionOwner", RpcTarget.AllBufferedViaServer, 
+                collision.gameObject.GetComponentInParent<PlayerModel>().PlayerTeamFaction);
         }
     }
 }

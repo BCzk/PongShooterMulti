@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             StartCoroutine(StartMatch());
         }
     }
+
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         CloseRoom(true);
@@ -46,30 +47,35 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     private IEnumerator StartMatch()
     {
-        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-
-        while (players.Length < MAX_ROOM_PLAYERS)
-        {
-            players = GameObject.FindGameObjectsWithTag("Player");
-            roomPlayers = players;
-            yield return new WaitForSeconds(0.1f);
-        }
-
         if (!_matchStarted)
         {
+            GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
 
+            while (players.Length < MAX_ROOM_PLAYERS)
+            {
+                players = GameObject.FindGameObjectsWithTag("Player");
+                roomPlayers = players;
+                yield return new WaitForSeconds(0.1f);
+            }
+
+            photonView.RPC("ReplicateMatchActiveStatus", RpcTarget.All, true);
             PhotonNetwork.NetworkingClient.EventReceived += OnEvent;
-            _matchStarted = true;
-
             StartCoroutine(StartRound());
         }
+    }
+
+    [PunRPC]
+    private void ReplicateMatchActiveStatus(bool bIsActive)
+    {
+        _matchStarted = bIsActive;
     }
 
     private IEnumerator StartRound()
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            timerAnimator.SetTrigger("StartTimer");
+            timerAnimator.SetBool("StartTimer", true);
+
             GlobalRoomReset();
 
             ChangeGlobalRoomInputEnabledStatus(false);
@@ -78,6 +84,8 @@ public class GameManager : MonoBehaviourPunCallbacks
 
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
             PhotonNetwork.RaiseEvent(EventCodeConsts.ON_ROUND_STARTED_EVENT, null, raiseEventOptions, SendOptions.SendReliable);
+
+            timerAnimator.SetBool("StartTimer", false);
         }
     }
 
@@ -88,6 +96,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             if (factionLoser == TeamFactionConsts.RED_TEAM)
             {
                 _bluePoints++;
+                UpdatePointsUI();
 
                 if (_bluePoints >= 3)
                 {
@@ -101,6 +110,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             else if (factionLoser == TeamFactionConsts.BLUE_TEAM)
             {
                 _redPoints++;
+                UpdatePointsUI();
 
                 if (_redPoints >= 3)
                 {
@@ -112,8 +122,6 @@ public class GameManager : MonoBehaviourPunCallbacks
                 }
             }
 
-            UpdatePointsUI();
-
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
             PhotonNetwork.RaiseEvent(EventCodeConsts.ON_ROUND_FINISHED_EVENT, null, raiseEventOptions, SendOptions.SendReliable);
         }
@@ -123,28 +131,29 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient && _matchStarted)
         {
-            object[] eventData = new object[] { winnerFaction };
-            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-            PhotonNetwork.RaiseEvent(EventCodeConsts.ON_MATCH_FINISHED_EVENT, eventData, raiseEventOptions, SendOptions.SendReliable);
-
             GlobalRoomReset();
             ChangeGlobalRoomInputEnabledStatus(false);
 
             PhotonNetwork.NetworkingClient.EventReceived -= OnEvent;
-            _matchStarted = false;
+            photonView.RPC("ReplicateMatchActiveStatus", RpcTarget.All, false);
             _redPoints = 0;
             _bluePoints = 0;
-        }
 
-        if (!bIsWinByAbandon)
-        {
-            StartCoroutine(HandlePostEndMatch());
+            object[] eventData = new object[] { winnerFaction };
+            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+            PhotonNetwork.RaiseEvent(EventCodeConsts.ON_MATCH_FINISHED_EVENT, eventData, raiseEventOptions, SendOptions.SendReliable);
+
+            if (!bIsWinByAbandon)
+            {
+                StartCoroutine(HandlePostEndMatch());
+            }
         }
     }
     private IEnumerator HandlePostEndMatch()
     {
-        timerAnimator.SetTrigger("StartTimer");
-        yield return new WaitForSeconds(2.5f);
+        timerAnimator.SetBool("StartTimer", true);
+        yield return new WaitForSeconds(3.0f);
+        timerAnimator.SetBool("StartTimer", false);
         CloseRoom(false);
     }
 
@@ -152,15 +161,15 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         if (bClosedByAbandon)
         {
-            PhotonNetwork.CurrentRoom.IsOpen = false;
             EndMatch(bClosedByAbandon, GetRemainingPlayerTeamFaction());
         }
         else
         {
-            PhotonNetwork.CurrentRoom.IsOpen = false;
-            PhotonNetwork.LeaveRoom(false);
-            SceneManager.LoadScene("MenuScene");
+            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+            PhotonNetwork.RaiseEvent(EventCodeConsts.ON_MATCH_FINISHED_TIMEOUT_KICK_EVENT, null, raiseEventOptions, SendOptions.SendReliable);
         }
+
+        PhotonNetwork.CurrentRoom.IsOpen = false;
     }
 
 
@@ -179,21 +188,27 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     private void ChangeGlobalRoomInputEnabledStatus(bool bIsEnabled)
     {
-        foreach (GameObject player in roomPlayers)
+        if (roomPlayers != null)
         {
-            PlayerController controller = player.GetComponent<PlayerController>();
-            controller.photonView.RPC("SetInputEnabledStatus", RpcTarget.All, bIsEnabled);
+            foreach (GameObject player in roomPlayers)
+            {
+                PlayerController controller = player.GetComponent<PlayerController>();
+                controller.photonView.RPC("SetInputEnabledStatus", RpcTarget.All, bIsEnabled);
+            }
         }
     }
 
     private void GlobalRoomReset()
     {
-        foreach (GameObject player in roomPlayers)
+        if (roomPlayers != null)
         {
-            PlayerModel model = player.GetComponent<PlayerModel>();
-            model.photonView.RPC("ResetPosition", RpcTarget.All);
-            ShieldModel shieldModel = player.GetComponentInChildren<ShieldModel>();
-            shieldModel.photonView.RPC("ResetShield", RpcTarget.All);
+            foreach (GameObject player in roomPlayers)
+            {
+                PlayerModel model = player.GetComponent<PlayerModel>();
+                model.photonView.RPC("ResetPosition", RpcTarget.All);
+                ShieldModel shieldModel = player.GetComponentInChildren<ShieldModel>();
+                shieldModel.photonView.RPC("ResetShield", RpcTarget.All);
+            }
         }
 
         if (PhotonNetwork.IsMasterClient)

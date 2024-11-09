@@ -6,18 +6,35 @@ using UnityEngine;
 
 public class BallModel : MonoBehaviourPun
 {
-
-    public int GetBallOwnerID => ballPlayerOwnerId;
+    public string GetBallOwnerFaction => ballOwnerFaction;
     public float Speed => speed;
     
     [SerializeField] private float speed;
-    private int ballPlayerOwnerId = 0;
+    private string ballOwnerFaction = "";
     private const float BALL_MAX_SPEED = 850.0f;
+    private bool bIsPendingKill = false;
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            PlayerModel playerModel = collision.gameObject.GetComponent<PlayerModel>();
+
+            if (playerModel.PlayerTeamFaction != ballOwnerFaction)
+            {
+                playerModel.LoseRound();
+                DestroyBall();
+            }
+        }
+    }
+
 
     [PunRPC]
-    public void SetBallOwner(int playerID)
+    public void SetBallFactionOwner(string inFaction)
     {
-        if (playerID == 1)
+        ballOwnerFaction = inFaction;
+
+        if (ballOwnerFaction == TeamFactionConsts.RED_TEAM)
         {
             gameObject.GetComponent<SpriteRenderer>().color = Color.red;
         }
@@ -25,13 +42,20 @@ public class BallModel : MonoBehaviourPun
         {
             gameObject.GetComponent<SpriteRenderer>().color = Color.cyan;
         }
-
-        ballPlayerOwnerId = playerID;
     }
 
     [PunRPC]
     public void IncreaseBallSpeed(float addSpeed)
     {
         speed = Mathf.Clamp(speed + addSpeed, 400.0f, BALL_MAX_SPEED);
+    }
+
+    private void DestroyBall()
+    {
+        if (PhotonNetwork.IsConnected && PhotonNetwork.IsMasterClient && !bIsPendingKill)
+        {
+            bIsPendingKill = true;
+            PhotonNetwork.Destroy(photonView);
+        }
     }
 }

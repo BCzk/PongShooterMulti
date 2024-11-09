@@ -8,6 +8,7 @@ public static class EventCodeConsts
     public const byte ON_ROUND_STARTED_EVENT = 2;
     public const byte ON_ROUND_FINISHED_EVENT = 3;
     public const byte ON_MATCH_FINISHED_EVENT = 4;
+    public const byte ON_MATCH_FINISHED_TIMEOUT_KICK_EVENT = 5;
 }
 
 public static class TeamFactionConsts

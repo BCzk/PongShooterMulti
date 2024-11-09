@@ -29,13 +29,16 @@ public class ShieldModel : MonoBehaviourPun
     [PunRPC]
     public void OnShieldHit()
     {
-        _auxiliarScaleVector = transform.localScale;
-        _auxiliarScaleVector.y -= shieldLostPerHit;
-        transform.localScale = _auxiliarScaleVector;
-
-        if (_auxiliarScaleVector.y <= 0.2f)
+        if (!bIsShieldDestroyed)
         {
-            bIsShieldDestroyed = true;
+            _auxiliarScaleVector = transform.localScale;
+            _auxiliarScaleVector.y -= shieldLostPerHit;
+            transform.localScale = _auxiliarScaleVector;
+
+            if (_auxiliarScaleVector.y <= 0.2f)
+            {
+                bIsShieldDestroyed = true;
+            }
         }
     }
 
