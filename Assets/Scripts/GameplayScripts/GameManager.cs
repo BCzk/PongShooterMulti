@@ -74,7 +74,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     private IEnumerator StartRound()
     {
-        _pointAwarded = true;
+        _pointAwarded = false;
         
         if (PhotonNetwork.IsMasterClient)
         {
