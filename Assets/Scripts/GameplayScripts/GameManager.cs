@@ -142,13 +142,14 @@ public class GameManager : MonoBehaviourPunCallbacks
             object[] eventData = new object[] { winnerFaction };
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
             PhotonNetwork.RaiseEvent(EventCodeConsts.ON_MATCH_FINISHED_EVENT, eventData, raiseEventOptions, SendOptions.SendReliable);
-
+            
             if (!bIsWinByAbandon)
             {
-                // StartCoroutine(HandlePostEndMatch());
+                StartCoroutine(HandlePostEndMatch());
             }
         }
     }
+    
     private IEnumerator HandlePostEndMatch()
     {
         timerAnimator.SetBool("StartTimer", true);
