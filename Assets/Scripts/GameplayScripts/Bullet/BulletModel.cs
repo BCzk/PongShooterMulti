@@ -24,11 +24,6 @@ public class BulletModel : MonoBehaviourPun
         {
             DestroyBullet();
         }
-
-        if (photonEvent.Code == EventCodeConsts.ON_ROUND_STARTED_EVENT)
-        {
-            Debug.Log("Debería destruir la bala");
-        }
     }
 
     public void Move()
