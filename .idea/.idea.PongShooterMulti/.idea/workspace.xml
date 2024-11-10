@@ -5,8 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8023ba79-c8c9-478b-a35c-6efa1a34b46a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.PongShooterMulti/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.PongShooterMulti/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameplayScripts/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameplayScripts/GameManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/GameplayScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/GameplayScene.unity" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -114,6 +113,7 @@
       <workItem from="1725367839711" duration="1984000" />
       <workItem from="1727994145327" duration="7336000" />
       <workItem from="1728597339331" duration="3025000" />
+      <workItem from="1731263672883" duration="856000" />
     </task>
     <servers />
   </component>

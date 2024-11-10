@@ -77,12 +77,13 @@ public class GameManager : MonoBehaviourPunCallbacks
             timerAnimator.SetBool("StartTimer", true);
 
             GlobalRoomReset();
-
+            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+            PhotonNetwork.RaiseEvent(EventCodeConsts.ON_TIMER_STARTED_EVENT, null, raiseEventOptions, SendOptions.SendReliable);
+            
             ChangeGlobalRoomInputEnabledStatus(false);
             yield return new WaitForSeconds(3);
             ChangeGlobalRoomInputEnabledStatus(true);
 
-            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
             PhotonNetwork.RaiseEvent(EventCodeConsts.ON_ROUND_STARTED_EVENT, null, raiseEventOptions, SendOptions.SendReliable);
 
             timerAnimator.SetBool("StartTimer", false);
@@ -152,9 +153,9 @@ public class GameManager : MonoBehaviourPunCallbacks
     
     private IEnumerator HandlePostEndMatch()
     {
-        timerAnimator.SetBool("StartTimer", true);
-        yield return new WaitForSeconds(3.0f);
-        timerAnimator.SetBool("StartTimer", false);
+        // timerAnimator.SetBool("StartTimer", true);
+        yield return new WaitForSeconds(10.0f);
+        // timerAnimator.SetBool("StartTimer", false);
         CloseRoom(false);
     }
 
@@ -215,7 +216,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient)
         {
             KillPreviousRoundObjects("Ball");
-            KillPreviousRoundObjects("Bullet");
+            // KillPreviousRoundObjects("Bullet");
         }
     }
 

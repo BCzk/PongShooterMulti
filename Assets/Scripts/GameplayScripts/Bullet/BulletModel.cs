@@ -20,7 +20,7 @@ public class BulletModel : MonoBehaviourPun
 
     public void OnEvent(EventData photonEvent)
     {
-        if (photonEvent.Code == EventCodeConsts.ON_ROUND_FINISHED_EVENT)
+        if (photonEvent.Code == EventCodeConsts.ON_ROUND_FINISHED_EVENT || photonEvent.Code == EventCodeConsts.ON_TIMER_STARTED_EVENT)
         {
             DestroyBullet();
         }
