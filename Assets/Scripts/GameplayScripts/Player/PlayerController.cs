@@ -8,7 +8,9 @@ public class PlayerController : MonoBehaviourPun
 {
     private PlayerModel _playerModel;
     private bool bIsInputEnabled = true;
-
+    [SerializeField] private float shootCooldown;
+    private float _shootTimer;
+    
     private void Awake()
     {
         _playerModel = GetComponent<PlayerModel>();
@@ -18,15 +20,17 @@ public class PlayerController : MonoBehaviourPun
     {
         if (photonView.IsMine && bIsInputEnabled)
         {
+            _shootTimer += Time.deltaTime;
             if (Input.GetAxis("Vertical") != 0)
             {
                 _playerModel.Move(Input.GetAxis("Vertical"));
                 ClampPlayerMoveToScreen();
             }
 
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (_shootTimer > shootCooldown && Input.GetKeyDown(KeyCode.Space))
             {
                 _playerModel.Shoot();
+                _shootTimer = 0.0f;
             }
         }
     }

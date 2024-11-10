@@ -30,7 +30,6 @@ public class BallSpawner : MonoBehaviour
             timer = 0.0f;
             readyToSpawn = false;
             roundStarted = true;
-            PhotonNetwork.Instantiate(ballPrefab.name, spawnPoint.position, Quaternion.identity);
         }
         else if (photonEvent.Code == EventCodeConsts.ON_ROUND_FINISHED_EVENT)
         {
