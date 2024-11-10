@@ -145,7 +145,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
             if (!bIsWinByAbandon)
             {
-                StartCoroutine(HandlePostEndMatch());
+                // StartCoroutine(HandlePostEndMatch());
             }
         }
     }
