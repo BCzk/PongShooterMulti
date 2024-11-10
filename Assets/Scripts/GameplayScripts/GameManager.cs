@@ -95,13 +95,17 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     private void HandleRoundFinished(string factionLoser)
     { 
-        if (_matchStarted && !_pointAwarded)
+        if (_matchStarted)
         {
             if (factionLoser == TeamFactionConsts.RED_TEAM)
             {
-                _bluePoints++;
-                UpdatePointsUI();
-                _pointAwarded = true;
+                if (!_pointAwarded)
+                {
+                    _bluePoints++;
+                    UpdatePointsUI();
+                    _pointAwarded = true;
+                }
+                
                 
                 if (_bluePoints >= 3)
                 {
@@ -114,9 +118,12 @@ public class GameManager : MonoBehaviourPunCallbacks
             }
             else if (factionLoser == TeamFactionConsts.BLUE_TEAM)
             {
-                _redPoints++;
-                UpdatePointsUI();
-                _pointAwarded = true;
+                if (!_pointAwarded)
+                {
+                    _redPoints++;
+                    UpdatePointsUI();
+                    _pointAwarded = true;
+                }
                 
                 if (_redPoints >= 3)
                 {
