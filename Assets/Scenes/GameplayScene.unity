@@ -639,7 +639,7 @@ MonoBehaviour:
   spawnPoint: {fileID: 1422107222}
   ballPrefab: {fileID: 3223532376705128273, guid: bf1fc1fa123f3a2489a075f0669c62b4, type: 3}
   timeToStartSpawning: 0
-  timeBetweenSpawn: 60
+  timeBetweenSpawn: 5
 --- !u!1 &496228145
 GameObject:
   m_ObjectHideFlags: 0
