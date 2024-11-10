@@ -22,8 +22,8 @@ public class BallModel : MonoBehaviourPun
 
             if (playerModel.PlayerTeamFaction != ballOwnerFaction)
             {
-                DestroyBall();
                 playerModel.LoseRound();
+                DestroyBall();
             }
         }
     }

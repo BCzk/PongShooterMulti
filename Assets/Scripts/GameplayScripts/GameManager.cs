@@ -18,6 +18,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     private int _redPoints;
     private int _bluePoints;
 
+    private bool _pointAwarded;
+    
     //Actualizaciones de UI
     [SerializeField] private Animator timerAnimator;
     [SerializeField] private Animator[] pointAnimators;
@@ -72,6 +74,8 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     private IEnumerator StartRound()
     {
+        _pointAwarded = true;
+        
         if (PhotonNetwork.IsMasterClient)
         {
             timerAnimator.SetBool("StartTimer", true);
@@ -91,13 +95,14 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     private void HandleRoundFinished(string factionLoser)
     { 
-        if (_matchStarted)
+        if (_matchStarted && !_pointAwarded)
         {
             if (factionLoser == TeamFactionConsts.RED_TEAM)
             {
                 _bluePoints++;
                 UpdatePointsUI();
-
+                _pointAwarded = true;
+                
                 if (_bluePoints >= 3)
                 {
                     EndMatch(false, TeamFactionConsts.BLUE_TEAM);
@@ -111,7 +116,8 @@ public class GameManager : MonoBehaviourPunCallbacks
             {
                 _redPoints++;
                 UpdatePointsUI();
-
+                _pointAwarded = true;
+                
                 if (_redPoints >= 3)
                 {
                     EndMatch(false, TeamFactionConsts.RED_TEAM);
@@ -145,7 +151,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
             if (!bIsWinByAbandon)
             {
-                StartCoroutine(HandlePostEndMatch());
+                // StartCoroutine(HandlePostEndMatch());
             }
         }
     }

@@ -49,8 +49,8 @@ public class BulletModel : MonoBehaviourPun
             }
             else if (collision.gameObject.CompareTag("Player") && !collision.gameObject.GetPhotonView().IsMine)
             {
-                DestroyBullet();
                 collision.gameObject.GetComponent<PlayerModel>().LoseRound();
+                DestroyBullet();
             }
         }
     }
