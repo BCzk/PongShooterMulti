@@ -10,6 +10,7 @@ public static class EventCodeConsts
     public const byte ON_MATCH_FINISHED_EVENT = 4;
     public const byte ON_MATCH_FINISHED_TIMEOUT_KICK_EVENT = 5;
     public const byte ON_TIMER_STARTED_EVENT = 6;
+    public const byte ON_PLAYER_SHOOT_EVENT = 100;
 }
 
 public static class TeamFactionConsts

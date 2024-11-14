@@ -173,6 +173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4533e030e2ace7d4cb96fa24bea98132, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onShootSFX: {fileID: 8300000, guid: 74d6e4b2bc07118429447701a28a895d, type: 3}
   shootCooldown: 0.5
 --- !u!58 &4205911922305258583
 CircleCollider2D:

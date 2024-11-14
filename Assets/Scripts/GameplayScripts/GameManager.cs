@@ -216,7 +216,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient)
         {
             KillPreviousRoundObjects("Ball");
-            // KillPreviousRoundObjects("Bullet");
         }
     }
 

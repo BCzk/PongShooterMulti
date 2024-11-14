@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ExitGames.Client.Photon;
 using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviourPun
@@ -10,6 +12,7 @@ public class PlayerController : MonoBehaviourPun
     private bool bIsInputEnabled = true;
     [SerializeField] private float shootCooldown;
     private float _shootTimer;
+
     
     private void Awake()
     {
@@ -31,6 +34,10 @@ public class PlayerController : MonoBehaviourPun
             {
                 _playerModel.Shoot();
                 _shootTimer = 0.0f;
+
+                object[] eventData = new object[] { "ShootSFX" };
+                RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+                PhotonNetwork.RaiseEvent(EventCodeConsts.ON_PLAYER_SHOOT_EVENT, eventData, raiseEventOptions, SendOptions.SendUnreliable);
             }
         }
     }
