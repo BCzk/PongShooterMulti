@@ -69,7 +69,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sourceSFX: {fileID: 2850748828137087718}
+  onRoundStartedSfx: {fileID: 8300000, guid: 8abc7e46bd80bcf4591d1fb148bb1b6c, type: 3}
+  onRoundFinishedSfx: {fileID: 8300000, guid: 7e8d4005d7ce44645ab5c285dd0c081d, type: 3}
+  onMatchFinishedSfx: {fileID: 8300000, guid: e544a55e2ba540545aecd67836b683aa, type: 3}
+  onBallBounceSfx: {fileID: 8300000, guid: d698a76041a5ed342999a164f0f92601, type: 3}
   onShootSfx: {fileID: 8300000, guid: 74d6e4b2bc07118429447701a28a895d, type: 3}
+  onShieldHitSfx: {fileID: 8300000, guid: 902be2eed6c8fe24a996b7ac231e9aec, type: 3}
+  onShieldRecoverSfx: {fileID: 8300000, guid: ff30858bed76b694393b0613f020cc05, type: 3}
 --- !u!82 &2850748828137087718
 AudioSource:
   m_ObjectHideFlags: 0

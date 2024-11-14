@@ -4,9 +4,13 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.UI;
+using UnityEngine.Rendering;
 
 public class MenuUI : MonoBehaviourPunCallbacks
 {
+    [SerializeField] private AudioSource menuAudioSourcePlayer;
+    [SerializeField] private AudioClip onExceptionSfx;
+
     [SerializeField] private Button createButton;
     [SerializeField] private Button joinButton;
     [SerializeField] private Button errorButton;
@@ -16,6 +20,7 @@ public class MenuUI : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
+
         createButton.onClick.AddListener(CreateRoom);
         joinButton.onClick.AddListener(JoinRoom);
     }
@@ -35,6 +40,7 @@ public class MenuUI : MonoBehaviourPunCallbacks
         {
             errorButton.gameObject.SetActive(true);
             errorText.text = "Cannot leave room name Empty";
+            PlayOneShot(onExceptionSfx);
         }
         else
         {
@@ -48,6 +54,7 @@ public class MenuUI : MonoBehaviourPunCallbacks
         {
             errorButton.gameObject.SetActive(true);
             errorText.text = "Must Enter a Room to Join";
+            PlayOneShot(onExceptionSfx);
         }
         else
         {
@@ -64,11 +71,25 @@ public class MenuUI : MonoBehaviourPunCallbacks
         base.OnCreateRoomFailed(returnCode, message);
         errorButton.gameObject.SetActive(true);
         errorText.text = message;
+        PlayOneShot(onExceptionSfx);
     }
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
         base.OnJoinRoomFailed(returnCode, message);
         errorButton.gameObject.SetActive(true);
         errorText.text = message;
+        PlayOneShot(onExceptionSfx);
+    }
+
+    public void PlayOneShot(AudioClip clip)
+    {
+        float volume = menuAudioSourcePlayer.volume;
+
+        if (menuAudioSourcePlayer.isPlaying)
+        {
+            volume /= 2.0f;
+        }
+
+        menuAudioSourcePlayer.PlayOneShot(clip, volume);
     }
 }

@@ -8,7 +8,13 @@ public class AudioPlayer : MonoBehaviourPun
 {
     [SerializeField] private AudioSource sourceSFX;
 
+    [SerializeField] private AudioClip onRoundStartedSfx;
+    [SerializeField] private AudioClip onRoundFinishedSfx;
+    [SerializeField] private AudioClip onMatchFinishedSfx;
+    [SerializeField] private AudioClip onBallBounceSfx;
     [SerializeField] private AudioClip onShootSfx;
+    [SerializeField] private AudioClip onShieldHitSfx;
+    [SerializeField] private AudioClip onShieldRecoverSfx;
 
     private void OnEnable()
     {
@@ -23,10 +29,33 @@ public class AudioPlayer : MonoBehaviourPun
     {
         AudioClip clipToPlay = null;
 
-        if (photonEvent.Code == EventCodeConsts.ON_PLAYER_SHOOT_EVENT)
+        switch (photonEvent.Code)
         {
-            clipToPlay = onShootSfx;
+            default:
+                break;
+            case EventCodeConsts.ON_ROUND_STARTED_EVENT:
+                clipToPlay = onRoundStartedSfx;
+                break;
+            case EventCodeConsts.ON_ROUND_FINISHED_EVENT:
+                clipToPlay = onRoundFinishedSfx;
+                break;
+            case EventCodeConsts.ON_MATCH_FINISHED_EVENT:
+                clipToPlay = onMatchFinishedSfx;
+                break;
+            case EventCodeConsts.ON_BALL_BOUNCE_EVENT:
+                clipToPlay = onBallBounceSfx;
+                break;
+            case EventCodeConsts.ON_PLAYER_SHOOT_EVENT:
+                clipToPlay = onShootSfx;
+                break;
+            case EventCodeConsts.ON_SHIELD_HIT_EVENT:
+                clipToPlay = onShieldHitSfx;
+                break;
+            case EventCodeConsts.ON_SHIELD_RECOVER_EVENT:
+                clipToPlay = onShieldRecoverSfx;
+                break;
         }
+
 
         if (clipToPlay != null)
         {

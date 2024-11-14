@@ -35,9 +35,8 @@ public class PlayerController : MonoBehaviourPun
                 _playerModel.Shoot();
                 _shootTimer = 0.0f;
 
-                object[] eventData = new object[] { "ShootSFX" };
                 RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-                PhotonNetwork.RaiseEvent(EventCodeConsts.ON_PLAYER_SHOOT_EVENT, eventData, raiseEventOptions, SendOptions.SendUnreliable);
+                PhotonNetwork.RaiseEvent(EventCodeConsts.ON_PLAYER_SHOOT_EVENT, "ShootSFX", raiseEventOptions, SendOptions.SendUnreliable);
             }
         }
     }

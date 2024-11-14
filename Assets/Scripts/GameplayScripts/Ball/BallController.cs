@@ -1,4 +1,6 @@
+using ExitGames.Client.Photon;
 using Photon.Pun;
+using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -55,5 +57,8 @@ public class BallController : MonoBehaviourPun
             _model.photonView.RPC("SetBallFactionOwner", RpcTarget.AllBufferedViaServer, 
                 collision.gameObject.GetComponentInParent<PlayerModel>().PlayerTeamFaction);
         }
+
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        PhotonNetwork.RaiseEvent(EventCodeConsts.ON_BALL_BOUNCE_EVENT, "BallBounceSFX", raiseEventOptions, SendOptions.SendUnreliable);
     }
 }

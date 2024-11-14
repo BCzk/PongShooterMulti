@@ -1,4 +1,6 @@
+using ExitGames.Client.Photon;
 using Photon.Pun;
+using Photon.Realtime;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -39,6 +41,9 @@ public class ShieldModel : MonoBehaviourPun
             {
                 bIsShieldDestroyed = true;
             }
+
+            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+            PhotonNetwork.RaiseEvent(EventCodeConsts.ON_SHIELD_HIT_EVENT, "ShieldHitSFX", raiseEventOptions, SendOptions.SendUnreliable);
         }
     }
 
@@ -50,5 +55,8 @@ public class ShieldModel : MonoBehaviourPun
         transform.localScale = _auxiliarScaleVector;
         bIsShieldDestroyed = false;
         shieldResetCounter = 0.0f;
+
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        PhotonNetwork.RaiseEvent(EventCodeConsts.ON_SHIELD_RECOVER_EVENT, "ShieldRecoverSFX", raiseEventOptions, SendOptions.SendUnreliable);
     }
 }
