@@ -1485,6 +1485,7 @@ MonoBehaviour:
   gameEndedPanel: {fileID: 1753117869}
   redWins: {fileID: 1826037165}
   blueWins: {fileID: 2011403236}
+  matchEndText: {fileID: 988655109}
 --- !u!1 &1674696978
 GameObject:
   m_ObjectHideFlags: 0

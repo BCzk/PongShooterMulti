@@ -148,7 +148,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             _redPoints = 0;
             _bluePoints = 0;
 
-            object[] eventData = new object[] { winnerFaction };
+            object[] eventData = new object[] { winnerFaction, bIsWinByAbandon };
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
             PhotonNetwork.RaiseEvent(EventCodeConsts.ON_MATCH_FINISHED_EVENT, eventData, raiseEventOptions, SendOptions.SendReliable);
             
