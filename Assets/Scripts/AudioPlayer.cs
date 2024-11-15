@@ -45,7 +45,7 @@ public class AudioPlayer : MonoBehaviourPun
                 break;
             case EventCodeConsts.ON_BALL_BOUNCE_EVENT:
                 clipToPlay = onBallBounceSfx;
-                volume = 0.20f;
+                volume = 0.10f;
                 break;
             case EventCodeConsts.ON_PLAYER_SHOOT_EVENT:
                 clipToPlay = onShootSfx;
