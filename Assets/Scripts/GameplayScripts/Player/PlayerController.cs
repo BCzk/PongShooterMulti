@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviourPun
     [SerializeField] private float shootCooldown;
     private float _shootTimer;
 
-    
+ 
     private void Awake()
     {
         _playerModel = GetComponent<PlayerModel>();

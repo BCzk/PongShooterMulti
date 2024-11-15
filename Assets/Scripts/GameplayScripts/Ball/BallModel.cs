@@ -20,10 +20,10 @@ public class BallModel : MonoBehaviourPun
         {
             PlayerModel playerModel = collision.gameObject.GetComponent<PlayerModel>();
 
-            if (playerModel.PlayerTeamFaction != ballOwnerFaction)
+            if (playerModel.PlayerTeamFaction != ballOwnerFaction && !bIsPendingKill)
             {
-                playerModel.LoseRound();
                 DestroyBall();
+                playerModel.LoseRound();
             }
         }
     }

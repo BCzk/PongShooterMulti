@@ -11,9 +11,8 @@ public class GameManager : MonoBehaviourPunCallbacks
 {
     private GameObject[] roomPlayers;
 
-    private bool _matchStarted;
-
-    private const int MAX_ROOM_PLAYERS = 2;
+    private bool bMatchStarted;
+    private bool bRoundFinished;
 
     private int _redPoints;
     private int _bluePoints;
@@ -24,7 +23,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        if (PhotonNetwork.IsMasterClient && PhotonNetwork.CurrentRoom.PlayerCount == MAX_ROOM_PLAYERS)
+        if (PhotonNetwork.IsMasterClient && PhotonNetwork.CurrentRoom.PlayerCount == GameConsts.MAX_ROOM_PLAYERS)
         {
             StartCoroutine(StartMatch());
         }
@@ -47,11 +46,11 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     private IEnumerator StartMatch()
     {
-        if (!_matchStarted)
+        if (!bMatchStarted)
         {
             GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
 
-            while (players.Length < MAX_ROOM_PLAYERS)
+            while (players.Length < GameConsts.MAX_ROOM_PLAYERS)
             {
                 players = GameObject.FindGameObjectsWithTag("Player");
                 roomPlayers = players;
@@ -67,7 +66,12 @@ public class GameManager : MonoBehaviourPunCallbacks
     [PunRPC]
     private void ReplicateMatchActiveStatus(bool bIsActive)
     {
-        _matchStarted = bIsActive;
+        bMatchStarted = bIsActive;
+    }
+    [PunRPC]
+    private void ReplicateRoundFinishedStatus(bool bIsActive)
+    {
+        bRoundFinished = bIsActive;
     }
 
     private IEnumerator StartRound()
@@ -87,12 +91,14 @@ public class GameManager : MonoBehaviourPunCallbacks
             PhotonNetwork.RaiseEvent(EventCodeConsts.ON_ROUND_STARTED_EVENT, null, raiseEventOptions, SendOptions.SendReliable);
 
             timerAnimator.SetBool("StartTimer", false);
+
+            photonView.RPC("ReplicateRoundFinishedStatus", RpcTarget.All, false);
         }
     }
 
     private void HandleRoundFinished(string factionLoser)
     { 
-        if (_matchStarted)
+        if (bMatchStarted && !bRoundFinished)
         {
             if (factionLoser == TeamFactionConsts.RED_TEAM)
             {
@@ -125,12 +131,14 @@ public class GameManager : MonoBehaviourPunCallbacks
 
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
             PhotonNetwork.RaiseEvent(EventCodeConsts.ON_ROUND_FINISHED_EVENT, null, raiseEventOptions, SendOptions.SendReliable);
+
+            photonView.RPC("ReplicateRoundFinishedStatus", RpcTarget.All, true);
         }
     }
 
     private void EndMatch(bool bIsWinByAbandon, string winnerFaction)
     {
-        if (PhotonNetwork.IsMasterClient && _matchStarted)
+        if (PhotonNetwork.IsMasterClient && bMatchStarted)
         {
             GlobalRoomReset();
             ChangeGlobalRoomInputEnabledStatus(false);
@@ -153,9 +161,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     
     private IEnumerator HandlePostEndMatch()
     {
-        // timerAnimator.SetBool("StartTimer", true);
         yield return new WaitForSeconds(10.0f);
-        // timerAnimator.SetBool("StartTimer", false);
         CloseRoom(false);
     }
 

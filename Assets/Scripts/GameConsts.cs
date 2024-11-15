@@ -2,6 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public static class GameConsts
+{
+    public const string GAME_VERSION = "V1.00";
+    public const int MAX_ROOM_PLAYERS = 2;
+}
+
 public static class EventCodeConsts
 {
     public const byte ON_PLAYER_LOSE_ROUND_EVENT = 1;

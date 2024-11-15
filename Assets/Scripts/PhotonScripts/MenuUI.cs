@@ -17,12 +17,13 @@ public class MenuUI : MonoBehaviourPunCallbacks
     [SerializeField] private TMPro. TMP_InputField createInput;
     [SerializeField] private TMPro. TMP_InputField joinInput;
     [SerializeField] private TMPro. TextMeshProUGUI errorText;
+    [SerializeField] private TMPro. TextMeshProUGUI versionText;
 
     private void Awake()
     {
-
         createButton.onClick.AddListener(CreateRoom);
         joinButton.onClick.AddListener(JoinRoom);
+        versionText.text = GameConsts.GAME_VERSION;
     }
 
     private void OnDestroy()
