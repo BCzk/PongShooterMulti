@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class GameConsts
 {
-    public const string GAME_VERSION = "V1.00";
+    public const string GAME_VERSION = "V1.01";
     public const int MAX_ROOM_PLAYERS = 2;
 }
 

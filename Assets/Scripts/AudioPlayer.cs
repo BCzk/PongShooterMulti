@@ -28,6 +28,7 @@ public class AudioPlayer : MonoBehaviourPun
     public void OnEvent(EventData photonEvent)
     {
         AudioClip clipToPlay = null;
+        float volume = 0.75f;
 
         switch (photonEvent.Code)
         {
@@ -44,6 +45,7 @@ public class AudioPlayer : MonoBehaviourPun
                 break;
             case EventCodeConsts.ON_BALL_BOUNCE_EVENT:
                 clipToPlay = onBallBounceSfx;
+                volume = 0.20f;
                 break;
             case EventCodeConsts.ON_PLAYER_SHOOT_EVENT:
                 clipToPlay = onShootSfx;
@@ -59,7 +61,7 @@ public class AudioPlayer : MonoBehaviourPun
 
         if (clipToPlay != null)
         {
-            PlayOneShot(clipToPlay);
+            PlayOneShot(clipToPlay, volume);
         }
     }
 
